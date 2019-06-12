@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="https://unpkg.com/quantum-circuit"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 2%;
+        }
+
+        #log {
+            height: 50%;
+            width: 100%;
+            /*min-height: 100%; */
+            overflow: scroll;
+        }
+
+        #send_room {
+            width: 100%;
+            margin-top: 10px;
+        }
+        /*
+        #room_data {
+            width: 80%;
+        }
+        #send_room_btn {
+            width: 15%;
+        }*/
+
+        #circuit_svg {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+
+    <script    src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script    src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
+
+
+    <script src="/static/extrapolator.js"></script>
+    <script src="/static/client.js"></script>
+
+    <div class="alert alert-success" role="alert">
+    This is a success alert—check it out!
+    </div>
+
+
+    <h1>Cattleya❃</h1>
+    <p>Async mode is: <b>{{ async_mode }}</b></p>
+    <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
+    <h2>Connect:</h2>
+    <!--<form id="emit" method="POST" action='#'>
+        <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+        <input type="submit" value="Echo">
+    </form>
+    <form id="broadcast" method="POST" action='#'>
+        <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
+        <input type="submit" value="Broadcast">
+    </form>-->
+
+    <!--
+    <form id="login" method="POST" action='#'>
+        <input type="text" name="login_id" id="login_id" placeholder="ID">
+        <input type="submit" value="LOGIN">
+    </form>
+
+    <form id="join" method="POST" action='#'>
+        <input type="text" name="join_room" id="join_room" placeholder="Room Name">
+        <input type="submit" value="Join Room">
+    </form>
+    -->
+
+
+    <form id="login" method="POST" action='#'>
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+        <label class="sr-only" for="inlineFormInputGroup">Username</label>
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+            <div class="input-group-text">@</div>
+            </div>
+            <input id="login_id" type="text" class="form-control" id="inlineFormInputGroup" 
+            placeholder="ID" autocorrect="off" autocapitalize="none">
+        </div>
+        </div>
+
+        <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-2">Login</button>
+        </div>
+    </div>
+    </form>
+
+
+    <form id="join" method="POST" action='#'>
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+        <label class="sr-only" for="inlineFormInputGroup">Username</label>
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+            <div class="input-group-text">@</div>
+            </div>
+            <input id="join_room" type="text" class="form-control" id="inlineFormInputGroup" 
+            placeholder="Friend's ID" autocorrect="off" autocapitalize="none">
+        </div>
+        </div>
+
+        <div class="col-auto">
+        <button type="submit" class="btn btn-danger">Establish QKD Connection</button>
+        </div>
+    </div>
+    </form>
+
+    <!--<form id="leave" method="POST" action='#'>
+        <input type="text" name="leave_room" id="leave_room" placeholder="Room Name">
+        <input type="submit" value="Leave Room">
+    </form>-->
+    <!--<form id="close" method="POST" action="#">
+        <input type="text" name="close_room" id="close_room" placeholder="Room Name">
+        <input type="submit" value="Close Room">
+    </form>
+    <form id="disconnect" method="POST" action="#">
+        <input type="submit" value="Disconnect">
+    </form>-->
+
+
+    <p>
+    <a id="circuit_svg" class="btn btn-dark" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Encryption Circuit Schematic (SVG)
+    </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+    <div id="drawing" class="card card-body">
+        QKD(BB84) not established yet. Please log in and connect.
+    </div>
+    </div>
+
+    
+    <h2>Receive:</h2>
+    <div id="log"></div>
+
+    <form id="send_room" method="POST" action='#'>
+        <!--<input type="text" name="room_name" id="room_name" placeholder="Room Name">-->
+
+
+        <!--<input type="text" class="form-control" name="room_data" id="room_data" placeholder="Message">
+        <button type="submit" class="form-control" id="send_room_btn" value="Send">-->
+
+        
+        <div class="input-group mb-3">
+        <input id="room_data" type="text" class="form-control" placeholder="type a messge" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <div class="input-group-append">
+            <button id="send_room_btn" class="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button>
+        </div>
+        </div>
+
+    </form>
+
+    <!--
+    <form>
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+        <label class="sr-only" for="inlineFormInput">Name</label>
+        <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe">
+        </div>
+        <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        </div>
+    </div>
+    </form>
+    -->
+</body>
