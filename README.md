@@ -1,5 +1,5 @@
 # E42
-E42 - QKD BB84 Chat's Prototype
+E42 - QKD [BB84](https://en.wikipedia.org/wiki/BB84) Chat's Prototype
 
 While we were studying the Quantum Computing, we found the glorious QKD. We loved BB84 algorithm and wanted to make it work in our computer. We found some great example codes from IBM Qiskit's Tutorial Repo, and made them work in real internet chatting.
 
@@ -24,6 +24,6 @@ However, that isn't our point. We just wanted to show how it works, and how amaz
 So, we appriciate any kind of contribution adn contact about this project. Please contribute and contact if you found anything wrong or needs upgrade.
 
 ## Credits
-* This system's BB84 Algorithm code is inspired by [Quantum_Cryptography2 of Qiskit](https://github.com/Qiskit/qiskit-tutorials/blob/master/community/awards/teach_me_qiskit_2018/quantum_cryptography_qkd/Quantum_Cryptography2.ipynb). We modified this code so that we can make QKD connection between two function, program, or clients. Also, we implemented it to Javascript.
+* This system's [BB84 Algorithm](https://en.wikipedia.org/wiki/BB84) code is inspired by [Quantum_Cryptography2 of Qiskit](https://github.com/Qiskit/qiskit-tutorials/blob/master/community/awards/teach_me_qiskit_2018/quantum_cryptography_qkd/Quantum_Cryptography2.ipynb). We modified this code so that we can make QKD connection between two function, program, or clients. Finally, we implemented it to Javascript.
 
 * [quantum-circuit js library](https://www.npmjs.com/package/quantum-circuit) is used to make Qubit operations.
