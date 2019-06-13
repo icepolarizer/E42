@@ -7,7 +7,8 @@ While we were studying the Quantum Computing, we found the glorious QKD. We love
 We don't have real QKD devices. They are *bloody* expensive, and we are just students. So, we decided to use the simulator.  
 Problem was, QKD requires some kind of photon transfer mechanism. Basically we have to *send* the qubits from one client to the other, but we couldn't find an example for such operation. Well, it woks in single python code for testing. So we serialized an Quantum Circuit Object, and sent it using socket.  
 
-We used Qiskit in python to prove that it's working. And for our next trick, we implemented them into Javascript...using another quantum-circuit library for js.
+We used Qiskit in python to prove that it's working. [Here is our Alpha version, made with Python](https://github.com/kenixer/qkd-chat).  
+And for our next trick, we implemented them into Javascript...using another quantum-circuit library for js.
 
 
 ## Installation
